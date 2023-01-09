@@ -13,6 +13,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,11 +41,12 @@ public class SetmealController {
 
     /**
      * 新增套餐
-     *
+     * allEntries = true 删除setmealCache分类缓存下的所有数据
      * @param setmealDto
      * @return
      */
     @PostMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public Result<String> addSetmeal(@RequestBody SetmealDto setmealDto) {
         log.info("套餐信息：{}", setmealDto);
 
@@ -53,7 +56,7 @@ public class SetmealController {
     }
 
     /**
-     * 套餐分页查询
+     * 后端套餐分页查询
      *
      * @param page
      * @param pageSize
@@ -99,6 +102,7 @@ public class SetmealController {
     }
 
     @DeleteMapping
+    @CacheEvict(value = "setmealCache",allEntries = true)
     public Result<String> deleteSetmealWithDish(@RequestParam List<Long> ids) {
         setmealService.removeSetmealWithDish(ids);
         return Result.success("删除成功~");
@@ -110,6 +114,7 @@ public class SetmealController {
      * @return
      */
     @GetMapping("/list")
+    @Cacheable(value = "setmealCache",key = "#setmeal.categoryId + '_' + #setmeal.status")
     public Result<List<Setmeal>> list(Setmeal setmeal) {
         log.info("setmeal:{}", setmeal);
         //条件构造器
