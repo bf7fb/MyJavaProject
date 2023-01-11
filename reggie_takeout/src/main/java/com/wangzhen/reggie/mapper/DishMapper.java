@@ -3,6 +3,9 @@ package com.wangzhen.reggie.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wangzhen.reggie.pojo.Dish;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * @author wz
@@ -12,4 +15,5 @@ import org.apache.ibatis.annotations.Mapper;
  */
 @Mapper
 public interface DishMapper extends BaseMapper<Dish> {
+    void updateStatus(@Param("statusCode") Integer statusCode,@Param("ids") List<Long> ids);
 }

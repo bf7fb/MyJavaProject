@@ -3,6 +3,7 @@ package com.wangzhen.reggie.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.wangzhen.reggie.dto.SetmealDto;
 import com.wangzhen.reggie.pojo.Setmeal;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ import java.util.List;
 public interface SetmealService extends IService<Setmeal> {
     public void addSetmeal(SetmealDto setmealDto);
     public void removeSetmealWithDish(List<Long> ids);
+    public void updateStatus(Integer statusCode, List<Long> ids);
+    public SetmealDto reviewSetmealWhenUpdateSetmeal(Long id);
+    public void updateSetmeal(@RequestBody SetmealDto setmealDto);
 
 
 }

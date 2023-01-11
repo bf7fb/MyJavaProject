@@ -1,6 +1,7 @@
 package com.wangzhen.reggie.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.wangzhen.reggie.common.BaseContext;
 import com.wangzhen.reggie.common.Result;
 import com.wangzhen.reggie.pojo.ShoppingCart;
@@ -104,6 +105,32 @@ public class ShoppingCartController {
         shoppingCartService.remove(queryWrapper);
 
         return Result.success("清空购物车成功");
+    }
+
+    /**
+     * 购物车数据-1
+     * @param shoppingCart
+     * @return
+     */
+    @PostMapping("/sub")
+    public Result<String> subInShoppingCart(@RequestBody ShoppingCart shoppingCart){
+//        System.out.println(shoppingCart);
+        // 1.如果删除的是菜品的话 delete from shopping_cart where dish_id = xxx;
+        Long dishId = shoppingCart.getDishId();
+        // 2.构造查询调价 QueryWrapper
+        if (dishId != null){
+            QueryWrapper<ShoppingCart> qw = new QueryWrapper<>();
+            qw.eq("dish_id",dishId);
+            shoppingCartService.remove(qw);
+        }
+        // 3.如果删除的是套餐
+        Long setmealId = shoppingCart.getSetmealId();
+        if (setmealId != null){
+            QueryWrapper<ShoppingCart> qw1 = new QueryWrapper<>();
+            qw1.eq("setmeal_id",setmealId);
+            shoppingCartService.remove(qw1);
+        }
+        return Result.success("");
     }
 
 }

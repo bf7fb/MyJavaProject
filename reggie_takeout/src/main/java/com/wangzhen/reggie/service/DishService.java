@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.wangzhen.reggie.dto.DishDto;
 import com.wangzhen.reggie.pojo.Dish;
 
+import java.util.List;
+
 /**
  * @author wz
  * @ClassName DishService
@@ -14,6 +16,7 @@ public interface DishService extends IService<Dish> {
     public void saveWithFlavor(DishDto dishDto);
     public DishDto selectDishWithFlavor(Long id);
     public void updateDishWithFlavor(DishDto dishDto);
+    public void updateStatus(Integer statusCode, List<Long> ids);
 
 
 }

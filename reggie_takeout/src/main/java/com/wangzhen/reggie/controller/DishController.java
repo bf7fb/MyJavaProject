@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -264,6 +265,43 @@ public class DishController {
 
         return Result.success(dishDtoList);
     }
+
+    /**
+     * 删除菜品
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+    public Result<String> deleteDishs(@RequestParam List<Long> ids){
+        System.out.println(ids);
+        dishService.removeByIds(ids);
+        return Result.success("删除成功~");
+    }
+
+    /**
+     * 修改状态
+     * @param statusCode
+     * @param ids
+     * @return
+     */
+    @PostMapping("/status/{statusCode}")
+    public Result<String> updateStatus(@PathVariable Integer statusCode,@RequestParam List<Long> ids){
+//        System.out.println("status===" + statusCode);
+//        System.out.println("ids===" + ids);
+        // 1.更改数据库状态
+        dishService.updateStatus(statusCode, ids);
+        // 2.根据ids(dishId) 获取Dish 再根据Dish获取categoryId集合 最后根据categoryId集合 删除缓存数据
+        ArrayList<String> KeysCategoryIds = new ArrayList<>();
+        for (Long id : ids) {
+            Dish dish = dishService.getById(id);
+            Long categoryId = dish.getCategoryId();
+            KeysCategoryIds.add("dish_" + categoryId + "_1");
+        }
+        // 3. 删除
+        redisTemplate.delete(KeysCategoryIds);
+        return Result.success("修改成功");
+    }
+
 
 
 }
