@@ -68,6 +68,7 @@ public class AddressBookController {
         }
 
         /**
+         * 下单的时候需要用到 查询默认地址 使用默认地址配送
          * 查询默认地址
          */
         @GetMapping("default")
@@ -102,5 +103,30 @@ public class AddressBookController {
             //SQL:select * from address_book where user_id = ? order by update_time desc
             return Result.success(addressBookService.list(queryWrapper));
         }
+
+        /**
+        * 修改地址
+        * @param addressBook
+        * @return
+        */
+        @PutMapping
+        public Result<String> updateAddressBook(@RequestBody AddressBook addressBook){
+            System.out.println(addressBook);
+            addressBookService.updateById(addressBook);
+            return Result.success("修改成功~");
+        }
+
+    /**
+     * 删除地址
+     * @param ids
+     * @return
+     */
+    @DeleteMapping
+        public Result<String> deleteAddressBook(Long ids){
+            System.out.println("ids====" + ids);
+            addressBookService.removeById(ids);
+            return Result.success("删除成功~");
+        }
+
     }
 

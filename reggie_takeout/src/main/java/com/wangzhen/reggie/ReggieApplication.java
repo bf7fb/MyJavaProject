@@ -4,6 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * @author wz
@@ -12,7 +14,9 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @Description TODO
  */
 @SpringBootApplication
-@ServletComponentScan
+@ServletComponentScan  // 扫描所有servlet/请求  过滤器用的
+@EnableTransactionManagement // 添加事务管理
+@EnableCaching // 开启springbootcache缓存
 @Slf4j
 public class ReggieApplication {
     public static void main(String[] args) {
