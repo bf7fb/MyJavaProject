@@ -39,8 +39,7 @@ public class UserController {
     @PostMapping("code")
     public Result sendCode(@RequestParam("phone") String phone, HttpSession session) {
         // TODO 发送短信验证码并保存验证码
-        userService.sendCode(phone,session);
-        return Result.ok();
+        return userService.sendCode(phone, session);
     }
 
     /**
@@ -50,8 +49,7 @@ public class UserController {
     @PostMapping("/login")
     public Result login(@RequestBody LoginFormDTO loginForm, HttpSession session){
         // TODO 实现登录功能
-        userService.login(loginForm,session);
-        return Result.ok();
+        return userService.login(loginForm, session);
     }
 
     /**
@@ -66,6 +64,7 @@ public class UserController {
 
     /**
      * 登录过后查询用户信息 如果不实现该功能 前端会一直跳转登录页面
+     * 登录后前端为调用此方法 看user是否为空来判断用户是否登录
      * @return
      */
     @GetMapping("/me")
