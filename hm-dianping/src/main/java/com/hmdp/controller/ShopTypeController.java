@@ -27,8 +27,13 @@ public class ShopTypeController {
 
     @GetMapping("list")
     public Result queryTypeList() {
-        List<ShopType> typeList = typeService
-                .query().orderByAsc("sort").list();
+//        List<ShopType> typeList = typeService
+//                .query().orderByAsc("sort").list();
+
+        List<ShopType> typeList = typeService.queryShopTypeList();
+        if (typeList == null) {
+            return Result.fail("店铺类型不存在!");
+        }
         return Result.ok(typeList);
     }
 }

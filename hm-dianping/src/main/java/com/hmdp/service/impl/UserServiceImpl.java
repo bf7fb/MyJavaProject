@@ -31,7 +31,7 @@ import static com.hmdp.utils.SystemConstants.USER_NICK_NAME_PREFIX;
  * 服务实现类
  * </p>
  *
- * @author 虎哥
+ * @author wz
  * @since 2021-12-22
  */
 @Slf4j
@@ -51,7 +51,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String code = RandomUtil.randomNumbers(6);
 
         // 3.将验证码保存到redis
-//        stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone,code,LOGIN_CODE_TTL);
         stringRedisTemplate.opsForValue().set(LOGIN_CODE_KEY + phone,code, LOGIN_CODE_TTL, TimeUnit.MINUTES);
 
         // 4.调用阿里云 发送信息
